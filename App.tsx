@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MessageRole, ChatMessage, ModelType, VoicePersona, AudioSettings, ChatMode } from './types.ts';
 import { gemini } from './services/geminiService.ts';
 import { Visualizer } from './components/Visualizer.tsx';
+import { BootSequence } from './components/BootSequence.tsx';
 
 interface StatusIndicatorProps {
   label: string;
@@ -478,7 +479,7 @@ const App: React.FC = () => {
   };
 
   if (!authenticated) {
-    return <BootScreen onAuthenticated={() => setAuthenticated(true)} />;
+    return <BootSequence onComplete={() => setAuthenticated(true)} />;
   }
 
   return (

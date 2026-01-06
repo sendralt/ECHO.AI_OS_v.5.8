@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EchoAI - HUD System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-teal: #00f2ff;
+      --neon-green: #39ff14;
+      --neon-blue: #0066ff;
+    }
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: #050505;
+      color: var(--neon-teal);
+      overflow: hidden;
+      margin: 0;
+    }
+    h1, h2, .hud-font {
+      font-family: 'Orbitron', sans-serif;
+    }
+    .scanline {
+      width: 100%;
+      height: 2px;
+      z-index: 100;
+      background: rgba(0, 242, 255, 0.1);
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      animation: scan 4s linear infinite;
+    }
+    @keyframes scan {
+      0% { top: 0; }
+      100% { top: 100%; }
+    }
+    .hud-panel {
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+      border-left: 2px solid var(--neon-teal);
+      background: rgba(0, 242, 255, 0.03);
+      backdrop-filter: blur(8px);
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0, 242, 255, 0.05); }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--neon-teal); border-radius: 10px; }
+    #error-display {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #1a0000;
+      color: #ff3333;
+      display: none;
+      padding: 40px;
+      z-index: 9999;
+      font-family: monospace;
+    }
+    @keyframes pulse-green {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    .vision-pulse {
+      animation: pulse-green 0.5s ease-out;
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.sh/@google/genai@0.12.0",
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+</head>
+<body>
+  <div class="scanline"></div>
+  <div id="error-display">
+    <h1 style="font-family: Orbitron; margin-bottom: 20px;">SYSTEM_FATAL_ERROR</h1>
+    <pre id="error-stack" style="white-space: pre-wrap;"></pre>
+    <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; border: 1px solid #ff3333; background: transparent; color: #ff3333; cursor: pointer;">RE-ATTEMPT UPLINK</button>
+  </div>
+  <div id="root"></div>
+  <script type="module" src="./index.tsx"></script>
+</body>
+</html>
